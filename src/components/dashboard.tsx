@@ -64,7 +64,6 @@ export function Dashboard() {
           <img className="brand-mark" src="/esure-mark.svg" width="38" height="38" alt="" aria-hidden="true" />
           <span>esure</span>
         </a>
-        <div className="network-pill"><span className="live-dot" /> Stellar Testnet</div>
         <a className="docs-link" href="https://developers.stellar.org" target="_blank" rel="noreferrer">Docs <ArrowIcon /></a>
       </header>
 
@@ -74,7 +73,22 @@ export function Dashboard() {
           <h1>Know it works<br /><span>before it ships.</span></h1>
           <p className="lede">Run repeatable Stellar payment flows on Testnet. See every operation, ledger confirmation, and assertion in one readable report.</p>
         </div>
-        <div className="hero-orbit" aria-hidden="true"><div className="orbit orbit-one" /><div className="orbit orbit-two" /><span className="orbit-core"><img src="/esure-mark.svg" width="76" height="76" alt="" /></span><i className="satellite one" /><i className="satellite two" /></div>
+        <div className="hero-orbit" aria-hidden="true">
+          <div className="scene-glow" />
+          <div className="scene-grid" />
+          <div className="orbit-stage">
+            <div className="orbit orbit-one" />
+            <div className="orbit orbit-two" />
+            <div className="orbit orbit-three" />
+            <span className="orbit-core"><span className="core-pulse" /><img src="/esure-mark.svg" width="66" height="66" alt="" /></span>
+            <i className="satellite one" />
+            <i className="satellite two" />
+            <i className="satellite three" />
+          </div>
+          <div className="signal-card transaction-card"><span className="signal-icon">↗</span><span><b>Payment sent</b><small>100 TESTUSD</small></span></div>
+          <div className="signal-card ledger-card"><span className="signal-dot" /><span><b>Ledger closed</b><small>3.4 seconds</small></span></div>
+          <div className="verified-chip"><CheckIcon /> VERIFIED</div>
+        </div>
       </section>
 
       <section className="workspace shell">
