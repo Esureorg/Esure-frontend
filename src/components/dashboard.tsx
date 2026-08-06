@@ -142,12 +142,12 @@ function RunView({ run }: { run: RunReport }) {
   return (
     <div className="report-grid">
       <div className="timeline-card">
-        <div className="report-meta"><span>RUN ID</span><code>{run.id}</code><span>NETWORK</span><code>{run.network}</code></div>
+        <div className="report-meta"><span>RUN ID</span><div className="id-cell"><code>{run.id}</code><CopyButton value={run.id} label="run ID" /></div><span>NETWORK</span><code>{run.network}</code></div>
         {pending && <div className="running-row"><span className="spinner" /><div><strong>{titleCase(run.status)}</strong><span>Esure is executing this flow on Stellar Testnet.</span></div></div>}
         {run.steps.map((step, index) => (
           <div className="timeline-row" key={step.id}>
             <span className={`step-dot ${step.status}`}><CheckIcon /></span>
-            <div><span className="label">STEP {String(index + 1).padStart(2, "0")} / {step.type}</span><strong>{humanize(step.id)}</strong><p>{step.message}</p>{step.transactionHash && <a href={`https://stellar.expert/explorer/testnet/tx/${step.transactionHash}`} target="_blank" rel="noreferrer">View transaction <ArrowIcon /></a>}</div>
+            <div><span className="label">STEP {String(index + 1).padStart(2, "0")} / {step.type}</span><strong>{humanize(step.id)}</strong><p>{step.message}</p>{step.transactionHash && <div className="tx-actions"><a href={`https://stellar.expert/explorer/testnet/tx/${step.transactionHash}`} target="_blank" rel="noreferrer">View transaction <ArrowIcon /></a><CopyButton value={step.transactionHash} label={`transaction ${step.transactionHash}`} /></div>}</div>
             {step.ledger && <code className="ledger">L#{step.ledger}</code>}
           </div>
         ))}
@@ -168,6 +168,29 @@ function RunView({ run }: { run: RunReport }) {
 
 function EmptyReport() {
   return <div className="empty-report"><div className="empty-glyph"><span /><span /><span /></div><strong>No run yet</strong><p>Select a scenario and run it to see each Stellar operation appear here.</p></div>;
+}
+
+function CopyButton({ value, label }: { value: string; label: string }) {
+  const [status, setStatus] = useState<"idle" | "copied" | "error">("idle");
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(value);
+      setStatus("copied");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  return (
+    <span className="copy-control">
+      <button type="button" className="copy-button" onClick={copy} aria-label={`Copy ${label}`}>
+        {status === "copied" ? "Copied" : "Copy"}
+      </button>
+      {status === "copied" && <span role="status" className="copy-status">Copied {label}</span>}
+      {status === "error" && <span role="status" className="copy-error">Could not copy {label}</span>}
+    </span>
+  );
 }
 
 function StatusBadge({ status }: { status: RunReport["status"] }) {
