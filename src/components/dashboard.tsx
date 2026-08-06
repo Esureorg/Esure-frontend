@@ -74,7 +74,7 @@ export function Dashboard() {
           <h1>Know it works<br /><span>before it ships.</span></h1>
           <p className="lede">Run repeatable Stellar payment flows on Testnet. See every operation, ledger confirmation, and assertion in one readable report.</p>
         </div>
-        <div className="hero-orbit" aria-hidden="true"><div className="orbit orbit-one" /><div className="orbit orbit-two" /><span className="orbit-core"><img src="/esure-mark-lime.svg" width="64" height="64" alt="" /></span><i className="satellite one" /><i className="satellite two" /></div>
+        <div className="hero-orbit" aria-hidden="true"><div className="orbit orbit-one" /><div className="orbit orbit-two" /><span className="orbit-core"><img src="/esure-mark.svg" width="76" height="76" alt="" /></span><i className="satellite one" /><i className="satellite two" /></div>
       </section>
 
       <section className="workspace shell">
