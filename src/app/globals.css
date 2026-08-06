@@ -81,9 +81,17 @@ button { color:inherit; }
 .timeline-card,.summary-card { border:1px solid var(--line); background:#f8f6f0; }
 .report-meta { padding:18px 24px; display:grid; grid-template-columns:auto 1fr auto auto; gap:12px; border-bottom:1px solid var(--line); align-items:center; }
 .report-meta span { font:500 9px var(--font-mono); color:var(--muted); letter-spacing:.12em; }.report-meta code { font:500 10px var(--font-mono); overflow:hidden; text-overflow:ellipsis; }
+.id-cell { display:flex; align-items:center; gap:8px; min-width:0; }
+.copy-control { display:inline-flex; align-items:center; gap:6px; }
+.copy-button { border:1px solid var(--line); background:transparent; color:var(--deep); font:600 10px var(--font-mono); letter-spacing:.06em; text-transform:uppercase; padding:5px 8px; cursor:pointer; border-radius:2px; }
+.copy-button:hover { border-color:var(--deep); }
+.copy-button:focus-visible { outline:2px solid var(--deep); outline-offset:2px; }
+.copy-status { color:var(--deep); font:500 10px var(--font-mono); }
+.copy-error { color:var(--red); font:500 10px var(--font-mono); }
 .timeline-row,.assertion,.running-row,.run-error { position:relative; display:grid; grid-template-columns:34px 1fr auto; gap:14px; padding:24px; border-bottom:1px solid var(--line); }
 .timeline-row strong,.assertion strong,.running-row strong { display:block; margin:5px 0; font-size:15px; }.timeline-row p { color:var(--muted); font-size:12px; margin:4px 0 8px; }
 .timeline-row a { color:var(--deep); display:inline-flex; align-items:center; gap:6px; font:600 11px var(--font-mono); }
+.tx-actions { display:flex; flex-wrap:wrap; align-items:center; gap:12px; }
 .step-dot { width:24px; height:24px; border:1px solid var(--line); border-radius:50%; display:grid; place-items:center; }.step-dot.passed { background:var(--green); border-color:var(--green); }.step-dot.failed { color:white; background:var(--red); border-color:var(--red); }.step-dot svg { width:13px; stroke:currentColor; stroke-width:2; }
 .ledger { align-self:center; color:var(--muted); font:500 10px var(--font-mono); }
 .assertion { background:#edf3df; border-bottom:0; }.running-row { grid-template-columns:34px 1fr; }.running-row span:not(.spinner) { display:block; color:var(--muted); font-size:12px; }
