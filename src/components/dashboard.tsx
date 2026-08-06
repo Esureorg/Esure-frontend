@@ -61,7 +61,7 @@ export function Dashboard() {
     <main>
       <header className="topbar shell">
         <a className="brand" href="#top" aria-label="Esure home">
-          <span className="brand-mark">E</span>
+          <img className="brand-mark" src="/esure-mark.svg" width="38" height="38" alt="" aria-hidden="true" />
           <span>esure</span>
         </a>
         <div className="network-pill"><span className="live-dot" /> Stellar Testnet</div>
@@ -180,4 +180,3 @@ function readError(reason: unknown): string {
 
 function humanize(value: string): string { return value.split("-").map(titleCase).join(" "); }
 function titleCase(value: string): string { return value.charAt(0).toUpperCase() + value.slice(1); }
-

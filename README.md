@@ -1,5 +1,7 @@
 # Esure Frontend
 
+![Esure logo](./public/esure-mark.svg)
+
 The web dashboard for running and inspecting Esure Stellar Testnet scenarios.
 
 ## Requirements
@@ -32,4 +34,3 @@ npm run start
 The browser communicates with a same-origin Next.js proxy. The backend origin is
 server-only configuration and is not embedded in the client bundle. This app
 never requests, receives, or stores Stellar secret keys.
-
