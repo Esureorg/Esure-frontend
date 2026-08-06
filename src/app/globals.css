@@ -21,7 +21,8 @@ button { color:inherit; }
 .orbit { position:absolute; border:1px solid #adb3a7; border-radius:50%; }
 .orbit-one { inset:28px; transform:rotate(24deg) scaleY(.62); }
 .orbit-two { inset:4px 72px; transform:rotate(-36deg) scaleX(.7); }
-.orbit-core { width:92px; height:92px; display:grid; place-items:center; border-radius:50%; background:var(--deep); color:var(--green); font:600 44px var(--font-mono); box-shadow:0 20px 55px #173f2d35; }
+.orbit-core { width:92px; height:92px; display:grid; place-items:center; border-radius:50%; background:var(--deep); box-shadow:0 20px 55px #173f2d35; }
+.orbit-core img { display:block; width:62px; height:62px; }
 .satellite { width:14px; height:14px; background:var(--green); border:3px solid var(--paper); border-radius:50%; position:absolute; }
 .satellite.one { top:76px; right:52px; }.satellite.two { bottom:74px; left:63px; background:var(--deep); }
 .workspace,.results { padding-block:72px; }
