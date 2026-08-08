@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { ApiError, getRun, listScenarios, startRun, type RunReport, type ScenarioSummary } from "@/lib/api";
+import { filterScenarios, type ScenarioFilterId } from "@/lib/scenario-filters";
+import { ScenarioFilters } from "@/components/scenario-filters";
 
 const terminalStatuses = new Set(["passed", "failed"]);
 
@@ -12,6 +14,7 @@ export function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [activeFilter, setActiveFilter] = useState<ScenarioFilterId>("all");
 
   useEffect(() => {
     const controller = new AbortController();
@@ -40,6 +43,14 @@ export function Dashboard() {
       window.clearInterval(timer);
     };
   }, [run?.id, run?.status]);
+
+  const visibleScenarios = useMemo(() => filterScenarios(scenarios, activeFilter), [scenarios, activeFilter]);
+
+  useEffect(() => {
+    if (!visibleScenarios.some((scenario) => scenario.id === selectedId) && visibleScenarios[0]) {
+      setSelectedId(visibleScenarios[0].id);
+    }
+  }, [visibleScenarios, selectedId]);
 
   const selected = useMemo(() => scenarios.find((scenario) => scenario.id === selectedId), [scenarios, selectedId]);
 
@@ -94,13 +105,15 @@ export function Dashboard() {
       <section className="workspace shell">
         <div className="section-heading">
           <div><p className="eyebrow">01 / CHOOSE A FLOW</p><h2>Test scenarios</h2></div>
-          <span className="scenario-count">{scenarios.length.toString().padStart(2, "0")} AVAILABLE</span>
+          <span className="scenario-count">{visibleScenarios.length.toString().padStart(2, "0")} AVAILABLE</span>
         </div>
+
+        <ScenarioFilters scenarios={scenarios} activeFilter={activeFilter} onFilterChange={setActiveFilter} />
 
         {error && <div className="error-banner" role="alert"><WarningIcon /><div><strong>Couldn&apos;t complete the request</strong><span>{error}</span></div></div>}
 
         <div className="scenario-grid" aria-busy={loading}>
-          {loading ? [1, 2, 3].map((item) => <div className="scenario-card skeleton" key={item} />) : scenarios.map((scenario, index) => (
+          {loading ? [1, 2, 3].map((item) => <div className="scenario-card skeleton" key={item} />) : visibleScenarios.map((scenario, index) => (
             <button
               type="button"
               className={`scenario-card ${selectedId === scenario.id ? "selected" : ""}`}
@@ -115,6 +128,10 @@ export function Dashboard() {
             </button>
           ))}
         </div>
+
+        {!loading && visibleScenarios.length === 0 && (
+          <div className="scenario-empty" role="status">No scenarios match this filter.</div>
+        )}
 
         <div className="launch-panel">
           <div><span className="label">SELECTED SCENARIO</span><strong>{selected?.name ?? "Choose a scenario"}</strong><span>{selected?.id ?? "—"}</span></div>
