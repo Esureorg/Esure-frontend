@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { ApiError, getRun, listScenarios, startRun, type RunReport, type ScenarioSummary } from "@/lib/api";
+import { formatDuration, formatTimestamp } from "@/lib/time";
 
 const terminalStatuses = new Set(["passed", "failed"]);
 
@@ -159,7 +160,15 @@ function RunView({ run }: { run: RunReport }) {
       <aside className="summary-card">
         <p className="eyebrow">RUN SUMMARY</p>
         <div className="score"><strong>{run.summary.stepsPassed + run.summary.assertionsPassed}</strong><span>checks passed</span></div>
-        <dl><div><dt>Steps passed</dt><dd>{run.summary.stepsPassed}</dd></div><div><dt>Steps failed</dt><dd>{run.summary.stepsFailed}</dd></div><div><dt>Assertions passed</dt><dd>{run.summary.assertionsPassed}</dd></div><div><dt>Assertions failed</dt><dd>{run.summary.assertionsFailed}</dd></div></dl>
+        <dl>
+          <div><dt>Created</dt><dd><time dateTime={run.createdAt} title={run.createdAt}>{formatTimestamp(run.createdAt)}</time></dd></div>
+          {run.completedAt && <div><dt>Completed</dt><dd><time dateTime={run.completedAt} title={run.completedAt}>{formatTimestamp(run.completedAt)}</time></dd></div>}
+          {run.completedAt && <div><dt>Duration</dt><dd>{formatDuration(run.createdAt, run.completedAt)}</dd></div>}
+          <div><dt>Steps passed</dt><dd>{run.summary.stepsPassed}</dd></div>
+          <div><dt>Steps failed</dt><dd>{run.summary.stepsFailed}</dd></div>
+          <div><dt>Assertions passed</dt><dd>{run.summary.assertionsPassed}</dd></div>
+          <div><dt>Assertions failed</dt><dd>{run.summary.assertionsFailed}</dd></div>
+        </dl>
         {terminalStatuses.has(run.status) && <a className="download" href={`/api/backend/api/v1/runs/${run.id}/report`} download>Download JSON report <DownloadIcon /></a>}
       </aside>
     </div>
