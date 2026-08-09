@@ -39,16 +39,20 @@ async function forward(request: NextRequest, context: RouteContext, method: "GET
   }
 
   const body = await response.text();
+  const contentDisposition = response.headers.get("content-disposition");
   return new NextResponse(body, {
     status: response.status,
-    headers: { "content-type": response.headers.get("content-type") ?? "application/json" },
+    headers: {
+      "content-type": response.headers.get("content-type") ?? "application/json",
+      ...(contentDisposition && { "content-disposition": contentDisposition }),
+    },
   });
 }
 
-function isAllowedPath(path: string[], method: "GET" | "POST"): boolean {
+export function isAllowedPath(path: string[], method: "GET" | "POST"): boolean {
   if (path.some((part) => !/^[a-zA-Z0-9-]+$/.test(part))) return false;
   if (method === "POST") return path.length === 3 && path.join("/") === "api/v1/runs";
   if (path.join("/") === "health" || path.join("/") === "api/v1/scenarios") return true;
-  return path.length === 4 && path.slice(0, 3).join("/") === "api/v1/runs";
+  const isRunPath = path.slice(0, 3).join("/") === "api/v1/runs";
+  return isRunPath && (path.length === 4 || (path.length === 5 && path[4] === "report"));
 }
-

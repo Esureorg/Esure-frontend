@@ -26,6 +26,7 @@ Open `http://localhost:3000`. The server-side proxy connects to the backend at
 npm run dev
 npm run typecheck
 npm run build
+npm test
 npm run start
 ```
 
