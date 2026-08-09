@@ -13,12 +13,16 @@ export interface StepResult {
   status: "passed" | "failed";
   transactionHash?: string;
   ledger?: number;
+  stellarTransactionCode?: string;
+  stellarOperationCodes?: string[];
   message: string;
 }
 
 export interface AssertionResult {
   type: string;
   status: "passed" | "failed";
+  expected?: string;
+  actual?: string;
   message: string;
 }
 
@@ -38,7 +42,15 @@ export interface RunReport {
     assertionsPassed: number;
     assertionsFailed: number;
   };
-  error?: { code: string; message: string };
+  error?: {
+    code: string;
+    message: string;
+    category: "stellar" | "network" | "timeout" | "capacity" | "internal";
+    retryable: boolean;
+    failedStepId?: string;
+    stellarTransactionCode?: string;
+    stellarOperationCodes?: string[];
+  };
 }
 
 interface ApiErrorBody {
@@ -80,4 +92,3 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
   }
   return data;
 }
-
