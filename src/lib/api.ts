@@ -3,6 +3,7 @@ export interface ScenarioSummary {
   version: number;
   name: string;
   description: string;
+  contentHash: string;
 }
 
 export type RunStatus = "requested" | "validating" | "running" | "passed" | "failed";
@@ -21,8 +22,8 @@ export interface StepResult {
 export interface AssertionResult {
   type: string;
   status: "passed" | "failed";
-  expected?: string;
-  actual?: string;
+  expected: JsonValue;
+  actual: JsonValue;
   message: string;
 }
 
@@ -30,6 +31,8 @@ export interface RunReport {
   id: string;
   scenarioId: string;
   scenarioVersion: number;
+  scenarioSchemaVersion: 1;
+  scenarioContentHash: string;
   network: "testnet";
   status: RunStatus;
   createdAt: string;
@@ -45,13 +48,15 @@ export interface RunReport {
   error?: {
     code: string;
     message: string;
-    category: "stellar" | "network" | "timeout" | "capacity" | "internal";
+    category: "stellar" | "network" | "timeout" | "capacity" | "validation" | "internal";
     retryable: boolean;
     failedStepId?: string;
     stellarTransactionCode?: string;
     stellarOperationCodes?: string[];
   };
 }
+
+export type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
 
 interface ApiErrorBody {
   error?: { code?: string; message?: string };
